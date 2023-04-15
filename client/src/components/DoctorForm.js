@@ -106,6 +106,16 @@ function DoctorForm({ onFinish, initivalValues }) {
         <Col span={8} xs={24} sm={24} lg={8}>
           <Form.Item
             required
+            label="Meet Link"
+            name="meetlink"
+            rules={[{ required: true }]}
+          >
+            <Input placeholder="Meeting Link" />
+          </Form.Item>
+        </Col>
+        <Col span={8} xs={24} sm={24} lg={8}>
+          <Form.Item
+            required
             label="Timings"
             name="timings"
             rules={[{ required: true }]}

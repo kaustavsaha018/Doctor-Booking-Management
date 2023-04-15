@@ -66,8 +66,8 @@ function Appointments() {
       dataIndex: "call",
       render: (text, record) => (
         <span>
-          <Button type="primary" disabled style={{borderRadius:"5px", fontWeight:"500"}}>
-        Call
+          <Button type="primary"  style={{borderRadius:"5px", fontWeight:"500"}}>
+        <a href={record.doctorInfo.meetlink} target="_blank" rel="noreferrer" >Call</a> 
       </Button>
         </span>
       ),
