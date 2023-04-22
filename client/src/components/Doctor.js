@@ -1,4 +1,5 @@
 import React from "react";
+import { Rate } from 'antd';
 import { useNavigate } from "react-router-dom";
 
 function Doctor({ doctor }) {
@@ -14,6 +15,7 @@ function Doctor({ doctor }) {
       <span>
         Specialized in {doctor.specialization}
       </span>
+      <Rate disabled defaultValue={4} />
       <hr />
       <p>
         <b>Phone Number : </b>

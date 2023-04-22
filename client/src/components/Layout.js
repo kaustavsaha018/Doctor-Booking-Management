@@ -71,6 +71,8 @@ function Layout({ children }) {
 
   const menuToBeRendered = user?.isAdmin ? adminMenu : user?.isDoctor ? doctorMenu : userMenu;
   const role = user?.isAdmin ? "Admin" : user?.isDoctor ? "Doctor" : "User";
+  // console.log(user.name.split(" ",1)[0]);
+
   return (
     <div className="main">
       <div className="d-flex layout">
@@ -78,6 +80,7 @@ function Layout({ children }) {
           <div className="sidebar-header">
             <h1 className="logo">KIMS</h1>
             <h1 className="role">Hi, {role}</h1>
+            
           </div>
 
           <div className="menu">
