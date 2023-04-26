@@ -1,4 +1,5 @@
 const express = require("express");
+const nodemailer = require("nodemailer");
 const router = express.Router();
 const Doctor = require("../models/doctorModel");
 const authMiddleware = require("../middlewares/authMiddleware");
@@ -93,6 +94,24 @@ router.post("/change-appointment-status", authMiddleware, async (req, res) => {
 
     await user.save();
 
+    // test mail
+    let testAccount = await nodemailer.createTestAccount();
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.ethereal.email',
+        port: 587,
+        auth: {
+            user: 'cyrus.ryan@ethereal.email',
+            pass: '4qyYbY4Fh7KMufcV8V'
+        }
+    });
+    let info = await transporter.sendMail({
+      from: '"Admin" <admin123@gmail.com>', // sender address
+      to: user.email, // list of receivers
+      subject: "Appointment Booked Successfully", // Subject line
+      text: "This is to inform you that your appointment status with the doctor has been approved. You can call the doctor by visiting our portal at the time of appointment.", // plain text body
+    });
+    console.log("Message sent: %s", info.messageId);
+    // test mail ends 
     res.status(200).send({
       message: "Appointment status updated successfully",
       success: true

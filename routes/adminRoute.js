@@ -1,4 +1,5 @@
 const express = require("express");
+const nodemailer = require("nodemailer");
 const router = express.Router();
 const User = require("../models/userModel");
 const Doctor = require("../models/doctorModel");
@@ -60,6 +61,25 @@ router.post(
       user.isDoctor = status === "approved" ? true : false;
       await user.save();
 
+
+      // mail testing
+      let testAccount = await nodemailer.createTestAccount();
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.ethereal.email',
+        port: 587,
+        auth: {
+            user: 'cyrus.ryan@ethereal.email',
+            pass: '4qyYbY4Fh7KMufcV8V'
+        }
+    });
+    let info = await transporter.sendMail({
+      from: '"Admin" <admin123@gmail.com>', // sender address
+      to: user.email, // list of receivers
+      subject: "Doctor Application Approved", // Subject line
+      text: "This is to inform you that your application for doctor has been successfully approved by the admin and now you are listed on the portal.", // plain text body
+    });
+    console.log("Message sent: %s", info.messageId);
+      // mail testing ends
       res.status(200).send({
         message: "Doctor status updated successfully",
         success: true,
