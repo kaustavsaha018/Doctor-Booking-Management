@@ -6,11 +6,13 @@ app.use(express.json());
 const userRoute = require("./routes/userRoute");
 const adminRoute = require("./routes/adminRoute");
 const doctorRoute = require("./routes/doctorsRoute");
+const paymentRoute = require("./routes/paymentRoute");
 const path = require("path");
 
 app.use("/api/user", userRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/doctor", doctorRoute);
+app.use("/api/payment", paymentRoute);
 
 if (process.env.NODE_ENV === "production") {
   app.use("/", express.static("client/build"));

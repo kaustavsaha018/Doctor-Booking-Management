@@ -14,6 +14,9 @@ function BookAppointment() {
   const navigate = useNavigate();
   const [date, setDate] = useState();
   const [time, setTime] = useState();
+  const [payBtnText, setPayBtnText] = useState("Pay Now");
+  const [payBtn, setPayBtn] = useState(false);
+  const [bookBtn, setBookBtn] = useState(true);
   const { user } = useSelector((state) => state.user);
   const [doctor, setDoctor] = useState(null);
   const params = useParams();
@@ -107,6 +110,47 @@ function BookAppointment() {
   useEffect(() => {
     getDoctorData();
   }, []);
+
+  const handleOpenRazorpay = (data)=>{
+    const options = {
+      key: 'rzp_test_aETqDyWsFWDmE9',
+      amount: Number(data.amount),
+      currency: data.currency,
+      name: `Dr. ${doctor.firstName} ${doctor.lastName}`,
+      description: 'Payment for Appointment Booking',
+      image: "https://upload.wikimedia.org/wikipedia/en/thumb/e/ef/KIIT_logo.svg/300px-KIIT_logo.svg.png",
+      order_id: data.id,
+      handler: function(response){
+          console.log(response, 34);
+          axios.post("/api/payment/verify", {response})
+          .then(res=>{
+            console.log(res, 37);
+            setPayBtn(true);
+            setPayBtnText("Paid")
+            setBookBtn(false);
+          })
+          .catch(err=>{
+            console.log(err);
+          })
+      }
+    }
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  }
+  
+  const handlePayment = async (amount)=>{
+    console.log(amount);
+    const _data = {amount: amount}
+    await axios.post("/api/payment/orders", _data)
+    .then(res=>{
+      console.log(res.data, 29);
+      handleOpenRazorpay(res.data.data);
+    })
+    .catch(err=>{
+        console.log(err);
+    })
+  }
+
   return (
     <Layout>
       {doctor && (
@@ -172,12 +216,23 @@ function BookAppointment() {
                 </Button>}
 
                 {isAvailable && (
+                  <>
+
                   <Button
+                    disabled={bookBtn}
                     className="primary-button mt-3 full-width-button"
                     onClick={bookNow}
                   >
                     Book Now
                   </Button>
+
+                  <Button
+                  disabled={payBtn}
+                    className="primary-button mt-3 full-width-button"
+                    onClick={()=> handlePayment(doctor.feePerCunsultation)}
+                  >{payBtnText}</Button>
+
+                  </>
                 )}
               </div>
             </Col>
