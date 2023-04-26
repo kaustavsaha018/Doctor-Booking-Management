@@ -6,8 +6,10 @@ import {toast} from 'react-hot-toast'
 import axios from "axios";
 import { Table } from "antd";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 function DoctorsList() {
+  const navigate = useNavigate();
   const [doctors, setDoctors] = useState([]);
   const dispatch = useDispatch();
   const getDoctorsData = async () => {
@@ -49,18 +51,32 @@ function DoctorsList() {
       dispatch(hideLoading());
     }
   };
+ 
   useEffect(() => {
     getDoctorsData();
   }, []);
+
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
       render: (text, record) => (
-        <span>
+         <span>
           {record.firstName} {record.lastName}
         </span>
       ),
+      onCell: (record, rowIndex) => {
+        return {
+          onClick: () => {
+            navigate('/admin/doctorslist/details',
+            {
+              state: {
+                record: record
+              }
+            }); 
+          }
+        };
+      }
     },
     {
       title: "Phone",
