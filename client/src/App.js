@@ -13,6 +13,7 @@ import Notifications from "./pages/Notifications";
 import Userslist from "./pages/Admin/Userslist";
 import DoctorsList from "./pages/Admin/DoctorsList";
 import Profile from "./pages/Doctor/Profile";
+import UserProfile from "./pages/UserProfile";
 import BookAppointment from "./pages/BookAppointment";
 import Appointments from "./pages/Appointments";
 import DoctorAppointments from "./pages/Doctor/DoctorAppointments";
@@ -94,6 +95,17 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* test route */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <UserProfile/>
+            </ProtectedRoute>
+          }
+        />
+        {/* test route ends */}
 
         <Route
           path="/book-appointment/:doctorId"
