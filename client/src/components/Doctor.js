@@ -6,7 +6,7 @@ function Doctor({ doctor }) {
   const navigate = useNavigate();
   return (
     <div
-      className="card p-2 cursor-pointer"
+      className="card p-2 cursor-pointer my-2"
       onClick={() => navigate(`/book-appointment/${doctor._id}`)}
     >
       <h1 className="card-title">
