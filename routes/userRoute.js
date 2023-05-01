@@ -215,14 +215,16 @@ router.post("/check-booking-avilability", authMiddleware, async (req, res) => {
   try {
     const date = moment(req.body.date, "DD-MM-YYYY").toISOString();
     let today = new Date().toISOString();
+    let temp=req.body.date;
+    let compDate = temp[6]+temp[7]+temp[8]+temp[9]+temp[5]+temp[3]+temp[4]+temp[2]+temp[0]+temp[1];
 
-    if(date.slice(0,10)<today.slice(0,10)){
+    if(compDate<today.slice(0,10)){
       return res.status(200).send({
         message: "Previous Dates cannot be selected",
         success: false,
       });
     }
-    
+
     if(moment(req.body.time, "HH:mm").toISOString()===null){
       return res.status(200).send({
         message: "Time is not selected",

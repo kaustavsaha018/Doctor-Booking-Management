@@ -205,7 +205,11 @@ function BookAppointment() {
                   className="mt-3"
                   onChange={(value) => {
                     setIsAvailable(false);
-                    setTime(moment(value).format("HH:mm"));
+                    if(moment(value).format("HH:mm")<doctor.timings[0] || moment(value).format("HH:mm")>doctor.timings[1]){
+                      setTime(null);
+                      toast.error("Select withing time range");
+                    } 
+                    else setTime(moment(value).format("HH:mm"));
                   }}
                 />
               {!isAvailable &&   <Button
