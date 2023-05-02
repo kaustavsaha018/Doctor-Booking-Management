@@ -25,6 +25,11 @@ const appointmentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    appointmentType: {
+      type: String,
+      required: true,
+      default: "online"
+    },
     status: {
       type: String,
       required: true,

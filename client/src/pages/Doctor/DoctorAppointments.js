@@ -110,7 +110,7 @@ function DoctorAppointments() {
       dataIndex: "call",
       render: (text, record) => (
         <span>
-          {record.status === "approved"?
+          {record.status === "approved" && record.appointmentType==="online"?
           <Button type="primary" style={{borderRadius:"5px", fontWeight:"500"}}>
             Call
           </Button>

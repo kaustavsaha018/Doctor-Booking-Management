@@ -1,4 +1,5 @@
-import { Button, Col, DatePicker, Form, Input, Row, TimePicker, Space } from "antd";
+import { Button, Col, DatePicker, Form, Input, Row, TimePicker, Space, Radio } from "antd";
+
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +12,7 @@ import moment from "moment";
 
 function BookAppointment() {
   const [isAvailable, setIsAvailable] = useState(false);
+  const [appointmentMode, setAppointmentMode] = useState("online");
   const navigate = useNavigate();
   const [date, setDate] = useState();
   const [time, setTime] = useState();
@@ -87,6 +89,7 @@ function BookAppointment() {
           userInfo: user,
           date: date,
           time: time,
+          appointmentType: appointmentMode
         },
         {
           headers: {
@@ -110,6 +113,24 @@ function BookAppointment() {
   useEffect(() => {
     getDoctorData();
   }, []);
+
+  
+  const [radioVal, setRadioVal] = useState(1);
+  const onRadioChange = (e) => {
+    setRadioVal(e.target.value);
+    if(radioVal===1){
+            setAppointmentMode("offline")
+            setPayBtn(true);
+            setPayBtnText("Pay Cash to Doctor")
+            setBookBtn(false);
+    }
+    else{
+            setAppointmentMode("online")
+            setPayBtn(false);
+            setPayBtnText("Pay Now")
+            setBookBtn(true);
+    }
+  };
 
   const handleOpenRazorpay = (data)=>{
     const options = {
@@ -222,6 +243,12 @@ function BookAppointment() {
                 {isAvailable && (
                   <>
 
+                  <Radio.Group onChange={onRadioChange} value={radioVal}>
+                    <Space direction="vertical">
+                      <Radio value={1}>ONLINE CHECKUP</Radio>
+                      <Radio value={2}>OFFLINE VISIT</Radio>
+                    </Space>
+                  </Radio.Group>
                   <Button
                     disabled={bookBtn}
                     className="primary-button mt-3 full-width-button"
