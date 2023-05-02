@@ -214,11 +214,18 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
 router.post("/check-booking-avilability", authMiddleware, async (req, res) => {
   try {
     const date = moment(req.body.date, "DD-MM-YYYY").toISOString();
-    let today = new Date().toISOString();
+    let today = new Date();
+    let day = today.getDate();
+    let month = today.getMonth() + 1;
+    let year = today.getFullYear();
+    day.toString().length===1?day='0'+day:day=day;
+    month.toString().length===1?month='0'+month:month=month;
+    let currentDate = `${year}-${month}-${day}`;
     let temp=req.body.date;
     let compDate = temp[6]+temp[7]+temp[8]+temp[9]+temp[5]+temp[3]+temp[4]+temp[2]+temp[0]+temp[1];
-
-    if(compDate<today.slice(0,10)){
+    console.log(compDate);
+    console.log(currentDate);
+    if(compDate<currentDate){
       return res.status(200).send({
         message: "Previous Dates cannot be selected",
         success: false,
