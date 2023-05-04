@@ -243,7 +243,7 @@ function BookAppointment() {
                 {isAvailable && (
                   <>
 
-                  <Radio.Group onChange={onRadioChange} value={radioVal}>
+                  <Radio.Group onChange={onRadioChange} value={radioVal} className="mt-3">
                     <Space direction="vertical">
                       <Radio value={1}>ONLINE CHECKUP</Radio>
                       <Radio value={2}>OFFLINE VISIT</Radio>
